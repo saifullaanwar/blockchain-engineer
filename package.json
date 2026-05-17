@@ -1,0 +1,20 @@
+{
+  "name": "bereitstellen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Soal 4 - Bereitstellen smart contract (Solidity 0.8.30) for Sepolia",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "interact:sepolia": "hardhat run scripts/interact.js --network sepolia"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.28.0"
+  }
+}

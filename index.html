@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crypto → IDR</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 460px; margin: 2rem auto; padding: 0 1rem; color: #1f2328; }
+    h1 { margin-bottom: 0.25rem; }
+    .sub { color: #656d76; margin-bottom: 1.5rem; }
+    label { display: block; margin: 1rem 0 0.25rem; font-weight: 600; font-size: 0.9rem; }
+    input, select, button { width: 100%; padding: 0.55rem 0.7rem; font-size: 1rem; box-sizing: border-box; border: 1px solid #d1d9e0; border-radius: 6px; }
+    button { margin-top: 1.5rem; background: #1f6feb; color: white; border: 0; cursor: pointer; font-weight: 600; }
+    button:hover:not(:disabled) { background: #1858c4; }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    #result { margin-top: 1.5rem; padding: 1rem; background: #f6f8fa; border-radius: 6px; min-height: 1.5rem; font-family: ui-monospace, "Consolas", monospace; }
+    #result.err { background: #ffebe9; color: #d1242f; }
+    #result.success { background: #dafbe1; color: #1a7f37; font-size: 1.1rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Crypto → IDR</h1>
+  <p class="sub">Konversi harga crypto ke Rupiah (CoinGecko + open.er-api).</p>
+  <form id="form">
+    <label for="symbol">Crypto</label>
+    <select id="symbol" required></select>
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" step="any" min="0" value="1" required>
+    <button type="submit" id="submit">Convert</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const form = $('form');
+    const symbolSel = $('symbol');
+    const amountInput = $('amount');
+    const submit = $('submit');
+    const result = $('result');
+    const fmt = new Intl.NumberFormat('id-ID');
+
+    async function loadSymbols() {
+      const r = await fetch('/symbols');
+      const { symbols } = await r.json();
+      symbolSel.innerHTML = symbols.map((s) => `<option>${s}</option>`).join('');
+    }
+
+    function show(msg, kind) {
+      result.className = kind || '';
+      result.textContent = msg;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submit.disabled = true;
+      show('Loading...', '');
+      try {
+        const r = await fetch('/convert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            symbol: symbolSel.value,
+            amount: Number(amountInput.value),
+          }),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+        show(`${data.amount} ${data.crypto} = Rp ${fmt.format(data.idr)}`, 'success');
+      } catch (err) {
+        show(err.message, 'err');
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    loadSymbols().catch((e) => show(`Failed to load symbols: ${e.message}`, 'err'));
+  </script>
+</body>
+</html>

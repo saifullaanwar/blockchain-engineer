@@ -1,0 +1,26 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "contractAddress": "0x1e2b21C2b91aBa82E54EA1094CAa31DAB4a30D81",
+  "deployer": "0xfAc1A1e027ADAcEAfDbB7dE745045C04Edc63FEE",
+  "deployTxHash": "0xded9c6bc9d629ead8ddd523c4db727d886680456393e5b8bc5ee84c302ffd607",
+  "deployEstimatedGas": 357724,
+  "interact": {
+    "setColorBlue": {
+      "txHash": "0x350b5242d0303c6c6de83b415176924c75ed8326e30465a5f858e538994732b9",
+      "blockNumber": 10862658,
+      "gasUsed": 31428,
+      "newColor": "blue"
+    },
+    "staticCallRevert": {
+      "randomWallet": "0x9D79faF4055f7AC4051e857Dbcae8509b350E4A7",
+      "revertReason": "Can only be called by deployer",
+      "onChainTx": null
+    }
+  },
+  "etherscan": {
+    "contract": "https://sepolia.etherscan.io/address/0x1e2b21C2b91aBa82E54EA1094CAa31DAB4a30D81",
+    "deployTx": "https://sepolia.etherscan.io/tx/0xded9c6bc9d629ead8ddd523c4db727d886680456393e5b8bc5ee84c302ffd607",
+    "setColorBlueTx": "https://sepolia.etherscan.io/tx/0x350b5242d0303c6c6de83b415176924c75ed8326e30465a5f858e538994732b9"
+  }
+}

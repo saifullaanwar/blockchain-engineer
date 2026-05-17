@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Env files
+.env
+.env.local
+
+# Hardhat
+cache/
+artifacts/
+
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
